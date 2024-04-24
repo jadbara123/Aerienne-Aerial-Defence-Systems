@@ -1,0 +1,17 @@
+import math
+
+
+TotalSpin=100
+MaxDelay=30
+MinDelay=0
+h= MaxDelay - MinDelay
+for CurrentSpin in  range(TotalSpin):
+    k=(h*TotalSpin)/2.39
+    print(CurrentSpin)
+
+    fx=(1/(2.50*TotalSpin/6))*math.exp((-(CurrentSpin-TotalSpin/2)**2)/(2*(TotalSpin/6)**2))*k #tahtadaki denklem
+    delay=-fx+MaxDelay-MinDelay
+    print(delay)
+
+   # f(x) = ((1) / (((a) / (6)) sqrt(2 π)))*exp((-(((x - ((a) / (2))) ^ (2)) / (2(((a) / (6))) ^ (2)))) * 30 * (
+             #   (h * a) / (2.39))

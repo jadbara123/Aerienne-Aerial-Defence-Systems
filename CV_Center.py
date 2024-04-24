@@ -3,6 +3,8 @@ import numpy as np
 import os
 
 camera = cv2.VideoCapture(0)
+camera.set(3,640)
+camera.set(4,480)
 dists = []
 prev_ex = 0
 prev_ey = 0

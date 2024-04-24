@@ -1,5 +1,7 @@
 import cv2
 cam = cv2.VideoCapture(0)
+cam.set(3,640)
+cam.set(4,480)
 
 while 1:
     ret, kare = cam.read()

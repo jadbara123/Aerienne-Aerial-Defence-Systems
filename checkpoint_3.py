@@ -9,8 +9,10 @@ import math
 
 MaxDelayust=0.001
 MinDelayust=0.000001
-MaxDelayalt=0.002
-MinDelayalt=0.000001
+MaxDelay=0.004
+MinDelay = 0.000001
+h= MaxDelay - MinDelay
+hust = MaxDelayust- MinDelayust
 
 # Define GPIO pins connected to the stepper motor driver
 EnablePinust = 17
@@ -41,9 +43,6 @@ coordinete_file = 'coordinate_file'
 prev_ex = 0
 prev_ey = 0
 
-def lsc(x, a, max_y, min_y):
-    b = max_y-min_y
-    return np.abs(-2*(b/a)*x)+min_y
 def move_ust_stepper(speed):
     # Set the direction pin
     if np.abs(speed) > 10 :
@@ -56,7 +55,9 @@ def move_ust_stepper(speed):
         TotalSpin=int(speed/1.5)
         # Move the motor
         for CurrentSpin in range(int(speed/1.5)):
-            delay=lsc(CurrentSpin, TotalSpin, MaxDelayust, MinDelayust)
+            k=(hust*TotalSpin)/2.39
+            fx=(1/(2.50*TotalSpin/6))*math.exp((-(CurrentSpin-TotalSpin/2)**2)/(2*(TotalSpin/6)**2))*k #tahtadaki denklem
+            delay=np.abs(-fx+MaxDelayust-MinDelayust)
             GPIO.output(StepPinust, GPIO.HIGH)
             time.sleep(delay)
             GPIO.output(StepPinust, GPIO.LOW)
@@ -75,8 +76,9 @@ def move_alt_stepper(speed):
         TotalSpin=int(speed/2)
         # Move the motor0
         for CurrentSpin in range(int(speed/2)):
-            #tahtadaki denklem
-            delay=lsc(CurrentSpin, TotalSpin, MaxDelayalt, MinDelayalt)
+            k=(h*TotalSpin)/2.39
+            fx=(1/(2.50*TotalSpin/6))*math.exp((-(CurrentSpin-TotalSpin/2)**2)/(2*(TotalSpin/6)**2))*k #tahtadaki denklem
+            delay=np.abs(-fx+MaxDelay-MinDelay)
             GPIO.output(StepPinalt, GPIO.HIGH)
             time.sleep(delay)
             GPIO.output(StepPinalt, GPIO.LOW)
